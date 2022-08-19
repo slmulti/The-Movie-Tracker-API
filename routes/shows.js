@@ -63,17 +63,6 @@ showsRt.get('/genre/:genre', async (req,res)=>{
 //Add a show
 //========================================================
 
-// showsRt.post('/', [check('type').trim().not().isEmpty()],async (req, res) => {
-
-//     const errors = validationResult(req)
-//     if (!errors.isEmpty()){
-//         return res.status(400).json({errors: errors.array()})
-//     }
-//     await Show.create(req.body)
-//     res.sendStatus(200)
-    
-// })
-
 showsRt.post('/', async (req, res) => {
 
     await Show.create(req.body)
