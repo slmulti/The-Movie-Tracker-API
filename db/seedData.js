@@ -48,7 +48,7 @@ const showData = [
         online: true         
     },
     {
-        title: 'Get out',
+        title: 'Get Out',
         genre: 'Horror',
         rating: '8',
         online: false         

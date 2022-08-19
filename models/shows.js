@@ -7,7 +7,7 @@ const Show = db.define('show', {
     title: DataTypes.STRING,
     genre: DataTypes.STRING,
     rating: DataTypes.REAL,
-    status: DataTypes.BOOLEAN
+    online: DataTypes.BOOLEAN
 });
 
 async function main(){
@@ -18,7 +18,7 @@ async function main(){
             title: x.title,
             genre: x.genre,
             rating: x.rating,
-            status: x.status
+            online: x.online
         })
     })
 }
