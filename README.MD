@@ -6,18 +6,18 @@ what are the routers of the server? - there will be 2 datatbases, users and show
 get:
     -all users =done
     -one user =done
-    shows watched by one user
+    shows watched by one user = done
     -all shows =done
     -one show =done
     -shows of specific genre = done
 
 put:
-    -update the status of a show - is it cancelled or still on air or streaming, maybe is a movie crrently streaming or not, yes or no, should be a boolean.
-    -update the rating of a show
+    -update the status of a show - is it cancelled or still on air or streaming, maybe is a movie crrently streaming or not, yes or no, should be a boolean. = done
+    -update the rating of a show =done
     -update to add a show is a users watched it.
 
 delete:
-    one show
+    one show - done
 
 shows- name, genre, rating, streaming
 users- name, list of shows watched

@@ -2,6 +2,9 @@ const express = require('express')
 const showsRt = express.Router()
 const {check, validationResult} = require('express-validator')
 const {Show} = require('../models/shows')
+const {User} = require('../models/users')
+const {db} = require('../db')
+const {logAllTables} = require('sequelize-logger')
 
 showsRt.get('/', (req,res)=>{
     console.log("http://localhost:3000/shows/ works!!!")
@@ -35,6 +38,10 @@ showsRt.get('/:id', async (req,res)=>{
 
 showsRt.get('/title/:title', async (req,res)=>{
     const oneShow = await Show.findOne({where: {title: req.params.title}})
+    if(!oneShow){
+        res.send("This show isnt in the Database")
+        return
+    }
     // PUT IN VARIABLE use .replace to replACE %20 WITH OPEN SPACE
     console.log(oneShow.toJSON())
     res.send(oneShow)
@@ -47,7 +54,7 @@ showsRt.get('/title/:title', async (req,res)=>{
 showsRt.get('/genre/:genre', async (req,res)=>{
 
     const findGenre = await Show.findAll({where: {genre: req.params.genre}})
-    console.log(findGenre)
+    logAllTables(db)
     res.send(findGenre)
 
 })
@@ -71,6 +78,7 @@ showsRt.post('/', async (req, res) => {
 
     await Show.create(req.body)
     console.log(req.body)
+    logAllTables(db)
     res.sendStatus(200)
     
 })
@@ -96,6 +104,33 @@ showsRt.put('/:id', async (req,res)=>{
 //     await Show.update({rating: req.body.rating}, {where: {id:req.body.id}})
 //     res.sendStatus(200)
 // })
+
+//========================================================
+//delete a show
+//========================================================
+
+showsRt.delete('/delete/:showId', async (req,res)=>{
+    const {showId} = req.params
+    const show = await Show.findByPk(showId)
+    if (!show) return res.status(401).send(`Show ${showId} not found`)
+    await show.destroy()
+    logAllTables(db)
+    res.status(201).send(`Show ${showId} deleted`)
+})
+
+//========================================================
+//all shows watched by one user
+//========================================================
+
+showsRt.get('/viewers/:showId', async (req,res)=>{
+    const {showId} = req.params
+    const showsWithUsers = await Show.findOne({
+        where: {id: showId},
+        include: [User]
+    })
+    res.send(showsWithUsers)
+})
+
 
 
 

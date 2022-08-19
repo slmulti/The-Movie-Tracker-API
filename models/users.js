@@ -7,16 +7,10 @@ const User = db.define('user', {
     name: DataTypes.STRING,
 });
 
-async function main(){
-    await User.sync({force:true})
-
-    userData.map(x => {
-        User.create({
-            name: x.name
-        })
-    })
+async function seedUser(){
+    for (let user of userData){
+        await User.create(user)
+    }
 }
 
-main()
-
-module.exports = {User}
+module.exports = {User, seedUser}

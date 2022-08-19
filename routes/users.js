@@ -3,6 +3,9 @@ const { showData } = require('../db/seedData')
 const usersRt = express.Router()
 // const {check, ValidationResult} = require('express-validator')
 const {User} = require('../models/users')
+const {db} = require('../db')
+const {logAllTables} = require('sequelize-logger')
+const { Show } = require('../models')
 
 usersRt.get('/', (req,res)=>{
     res.send("the /users works!!!")
@@ -28,6 +31,30 @@ usersRt.get('/:id', async (req,res)=>{
     console.log(oneUser.toJSON())
     res.send(oneUser)
 })
+
+
+//========================================================
+//add movie to a user
+//========================================================
+
+usersRt.post('/:userId/shows/:showId', async (req,res)=>{
+    const {userId, showId} = req.params
+
+    const user = await User.findByPk(userId)
+    if (!user) return res.status(401).send(`User ${userId} not found`)
+    const show = await Show.findByPk(showId)
+    if (!show) return res.status(401).send(`Show ${showId} not found`) 
+
+    try{
+        await user.addShow(show)
+        logAllTables(db)
+        res.status(201).send(`Show ${showId} added to user ${userId}`)
+    } catch (error){
+        console.log("there was an error!", error)
+        res.status(500).send(error)
+    }
+})
+
 
 
 module.exports = {usersRt}

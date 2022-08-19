@@ -10,19 +10,10 @@ const Show = db.define('show', {
     online: DataTypes.BOOLEAN
 });
 
-async function main(){
-    await Show.sync({force:true})
-
-    showData.map(x => {
-        Show.create({
-            title: x.title,
-            genre: x.genre,
-            rating: x.rating,
-            online: x.online
-        })
-    })
+async function seedShow(){
+    for (let show of showData){
+        await Show.create(show)
+    }
 }
 
-main()
-
-module.exports = {Show}
+module.exports = {Show, seedShow}
