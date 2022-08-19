@@ -82,8 +82,10 @@ showsRt.post('/', async (req, res) => {
 showsRt.put('/:id', async (req,res)=>{
     await Show.update(req.body, {where: {id:req.params.id}})
     res.sendStatus(200)
+
     // const updatedShow = await Show.findOne({where: {id:req.body.id}})
     // console.log(`${updatedShow.title} has had its online Status changed to ${updatedShow.online}`)
+
 })
 
 //========================================================
