@@ -1,5 +1,5 @@
-const {Show}=require('./models/shows')
-const {User}=require('./models/users')
+const {Show, User}=require('./models/')
+
 
 Show.belongsToMany(User, {through:'shows-watched'})
 User.belongsToMany(Movie, {through:'shows-watched'})
